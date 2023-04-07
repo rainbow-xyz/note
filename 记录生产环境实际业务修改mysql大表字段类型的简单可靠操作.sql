@@ -26,17 +26,19 @@ CREATE TABLE `ky_other`.`tbl_reservation_notify_queue_new` (
   KEY `start_time_INDEX` (`start_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=原始表当前值+预留操作期间的增量（大概10万） DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-# 3.使用DTS迁移工具进行全量数据迁移和增量迁移，指定新表名称tbl_reservation_notify_queue_new，跳过检查  已测试速度很快
+# 3.使用DTS迁移工具进行全量数据迁移和增量迁移，指定新表名称tbl_reservation_notify_queue_new，跳过检查 
+
+# 4.重命名旧表和新表 已测试速度很快
 # mysql 8.0.13 之前rename之前不能使用LOCK TABLES(具体参照官方文档 https://dev.mysql.com/doc/refman/8.0/en/rename-table.html)
 RENAME TABLE `ky_other`.tbl_reservation_notify_queue TO `ky_other`.tbl_reservation_notify_queue_old,
              `ky_other`.tbl_reservation_notify_queue_new TO `ky_other`.tbl_reservation_notify_queue;
 
-# 4.核对记录（条数差不多一致，增量对的上）
+# 5.核对记录（条数差不多一致，增量对的上）
 SELECT COUNT(*) FROM `ky_other`.`tbl_reservation_notify_queue_old`;
 SELECT COUNT(*) FROM `ky_other`.`tbl_reservation_notify_queue`;
 SELECT id, FROM_UNIXTIME(start_time), FROM_UNIXTIME(time) FROM `ky_other`.`tbl_reservation_notify_queue` ORDER BY `id` DESC LIMIT 100;
 
-# 5.删除旧表
+# 6.删除旧表
 DROP TABLE `ky_other`.`tbl_reservation_notify_queue_old`;
 
-# 6.释放迁移任务（去DTS控制台操作）
+# 7.释放迁移任务（去DTS控制台操作）
