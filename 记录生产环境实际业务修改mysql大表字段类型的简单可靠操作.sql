@@ -1,5 +1,5 @@
 # 需求：完成大表上的字段类型变更， ALTER TABLE tbl_reservation_notify_queue modify `id` BIGINT NOT NULL AUTO_INCREMENT
-# 由于目前mysql8.0还不支持原表无锁操作该字段类型（还是COPY模式），数据量越大，锁表时间越长，业务永不停歇，会导致数据库会话越多。
+# 由于目前mysql8.0还不支持原表无锁操作该字段类型（还是COPY模式），数据量越大，锁表时间越长，业务永不停歇，业务里有用到该表的事务，会导致数据库活跃会话越多。
 # 因为避免免不了全量迁移数据，手动迁移较慢，所以借助DTS工具来替代全量复制+触发器的方案；
 
 # 1.查看被修改表的建表语句，注意AUTO_INCREMENT的值
