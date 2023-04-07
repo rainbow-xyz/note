@@ -36,4 +36,7 @@ SELECT COUNT(*) FROM `ky_other`.`tbl_reservation_notify_queue_old`;
 SELECT COUNT(*) FROM `ky_other`.`tbl_reservation_notify_queue`;
 SELECT id, FROM_UNIXTIME(start_time), FROM_UNIXTIME(time) FROM `ky_other`.`tbl_reservation_notify_queue` ORDER BY `id` DESC LIMIT 100;
 
-# 5.释放迁移任务（去DTS控制台操作）
+# 5.删除旧表
+DROP TABLE `ky_other`.`tbl_reservation_notify_queue_old`;
+
+# 6.释放迁移任务（去DTS控制台操作）
